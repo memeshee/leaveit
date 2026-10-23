@@ -1,23 +1,23 @@
 [
   {
     "key": "A",
-    "item_id": "microsoft/vscode#343170",
-    "p_handle": 0.1192,
+    "item_id": "vercel/next.js#100381",
+    "p_handle": 0.148,
     "needs_today": false,
-    "title": "Server for Docker Containers on Updates"
+    "title": "Turbopack: lazy import.meta.glob entries are not code-split and load with the page"
   },
   {
     "key": "B",
-    "item_id": "microsoft/vscode#342919",
-    "p_handle": 0.1192,
+    "item_id": "vercel/next.js#100518",
+    "p_handle": 0.1824,
     "needs_today": false,
-    "title": "Outline view for Markdown Preview"
+    "title": "`next dev` never answers requests when the app directory contains a symlinked directory (regression in 16.4)"
   },
   {
     "key": "C",
-    "item_id": "microsoft/vscode#342794",
-    "p_handle": 0.9627,
+    "item_id": "vercel/next.js#100398",
+    "p_handle": 0.2018,
     "needs_today": false,
-    "title": "Agent Host: about 10 MiB of Codex command output causes V8 heap OOM on stable 1.142.0"
+    "title": "Middleware rewrite drops an empty `_rsc`, so a Server Action's `redirect()` fetch loops until \"redirect count "
   }
 ]

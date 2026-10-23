@@ -1,12 +1,15 @@
 *This is a submission for the [Hacktoberfest Open-Source AI Challenge Week 3: Slow and Steady](https://dev.to/challenges/hacktoberfest-week3-2026-10-19)*
 
+`#devchallenge` `#hf26challenge`
+
 ## What I Built
 
 **Leave It** is a morning filter for a backlog I have decided not to read.
 
-I point it at a stream of items — mine was 731 real GitHub issues from `vercel/next.js`,
-`rust-lang/rust`, `python/cpython` and `microsoft/vscode`. For each one, a fine-tuned 4B
-open-weight model answers a single question: **does this need a maintainer today?**
+I point it at a stream of items — for this post, 731 real GitHub issues from
+`vercel/next.js`, `rust-lang/rust`, `python/cpython` and `microsoft/vscode`. For each one,
+a fine-tuned 4B open-weight model answers a single question: **does this need a maintainer
+today?**
 
 Items it answers `WAIT` for do not get shown to me. They do not get deleted either. Each
 one is held by a durable Temporal fuse, so if nobody ever engages with it, it stays
@@ -21,7 +24,7 @@ something, and then to make sure being wrong about that is cheap.*
 ## Demo
 
 The demo is a static page generated from the same artefacts the evaluation reads:
-**https://memeshee.github.io/leaveit/**
+**https://leaveit-demo.vercel.app/**
 
 There is deliberately no dynamic backend. A previous hackathon entry of mine scored
 badly because its demo was a free-tier web service that had spun down by judging time
@@ -33,22 +36,9 @@ not have.
 
 The interesting half of the demo is not visual, though. It is this:
 
-```
-$ ./run_demo.sh
-t+0s   three seals opened: A fuse 24s, C fuse 16s, B fuse 40s
-t+8s   kill -9 the worker (pid 1417212)
-t+8s   worker is dead: no process exists that could run an activity
-t+8s   3 workflows still Running on the server
-t+10s  deliver 'on_attention' to seal B while NO worker process exists
-t+14s  restart the worker
-t+38s  fuses fired:
-         vercel/next.js#…   LAPSED    fuse expired after 16s; nobody ever engaged
-         rust-lang/rust#…  LAPSED    fuse expired after 24s; nobody ever engaged
-         python/cpython#…  RESCUED   a maintainer commented while the worker was dead
-t+38s  server-side run history: 3/3 seals Completed
-```
+{{DEMO_TRANSCRIPT}}
 
-Read the t+10s line again. A signal was delivered to a workflow at a moment when **no
+Read the t+11s line again. A signal was delivered to a workflow at a moment when **no
 worker process existed on the machine**. On restart, the seal that received it was
 rescued and the two that received nothing fired exactly when they were promised to.
 That is the entire reason a `sleep()` is not good enough for this product.
@@ -105,7 +95,40 @@ reached me.
 
 {{BASELINES_TABLE}}
 
-### 3. The fine-tune (Tinker)
+Two things in that table are worth saying out loud rather than burying:
+
+- **The fine-tune does not dominate the classical arm.** AUC 0.665 versus 0.663 is a tie
+  dressed up as a result, and the best word-count classifier actually defers 5 more items
+  at exactly the 5% budget. It wins at the tight budget (64 deferred at 3% versus 44) and
+  at the loose one (152 at 10% versus 129). If you want "a small model beats TF-IDF
+  everywhere", this is not that post.
+- **The base model is a coin flip.** AUC 0.516 against a baseline of 0.500. Against the
+  baseline the category actually specifies — the same model, same prompt, no LoRA — the
+  fine-tune moves deferral from 49 items to 73 at the same miss budget, which is what the
+  fine-tune is for.
+
+### 3. What thinking costs
+
+The Tinker brief asks for an improvement in "performance, latency, or cost", so I measured
+the other two axes as well, on the same 40 items, with the base model allowed to use its
+own reasoning:
+
+| arm | verdict produced | tokens generated per item | tokens for 40 items |
+|---|---|---|---|
+| base 4B, thinking enabled | **15 / 40** | 696 | 27,837 |
+| fine-tuned 4B, verdict as first token | **40 / 40** | 2 | 80 |
+
+Left to its own devices, the reasoning model spent the entire 700-token budget on 25 of 40
+items and **never produced a verdict at all**, and on the 15 it did answer it was 20%
+accurate. The fine-tune turns the same weights into a one-token classifier: 348× fewer
+tokens and a parseable answer every time.
+
+I am explicitly **not** claiming a latency win. My median wall-clock numbers came out 7.08s
+for the tuned arm against 4.03s for the base arm, which is almost certainly queue and
+session overhead rather than model time, and I would rather leave a favourable claim on the
+table than publish a measurement I do not trust.
+
+### 4. The fine-tune (Tinker)
 
 `Qwen/Qwen3.5-4B` on Tinker, LoRA rank 16, 2,924 items, ~300 steps at batch 8, learning
 rate 1e-4. The verdict is a **single token**, and the score is not a sampled opinion — it
@@ -125,7 +148,7 @@ clear improvement over a baseline", and the baseline is the *same model, same pr
 decoding position, no LoRA* — which isolates the fine-tune rather than comparing it to
 nothing.
 
-### 4. The fuse is a Temporal timer, not a `sleep()`
+### 5. The fuse is a Temporal timer, not a `sleep()`
 
 `workflow.wait_condition(lambda: self._rescued, timeout=timedelta(seconds=fuse))` inside a
 Temporal workflow gives me one wait with two ways out: an `on_attention` signal or the
@@ -176,10 +199,10 @@ token** (p ≈ 2.5e-8). The fix was `apply_chat_template(..., enable_thinking=Fa
 which produces a clean single-token `NOW`. I apply the same setting to the base arm, so
 the comparison stays fair — the only difference between arms is the LoRA.
 
-**The base model, given one token and no thinking, is at chance.** AUC 0.497. Not "slightly
-worse than the fine-tune" — no signal at all. Every bit of signal in this product comes
-from the fine-tune, which is the least flattering possible finding for a post that is
-mostly about a fine-tune, and it is the true one.
+**The base model, given one token and no thinking, is essentially at chance.** AUC 0.516.
+Not "slightly worse than the fine-tune" — 0.5 is a coin flip. Almost every bit of ranking
+signal in this product comes from the fine-tune, which is the least flattering possible
+finding for a post that is mostly about a fine-tune, and it is the true one.
 
 ## Why Does Open Innovation Matter?
 

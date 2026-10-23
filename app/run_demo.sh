@@ -21,6 +21,7 @@ sleep 5
 $PY worker.py > "$LOG/worker1.log" 2>&1 &
 WPID=$!
 sleep 3
+T0=$(date +%s)          # the timeline starts at the first seal, not at server boot
 ev "three seals opened: A fuse 24s, C fuse 16s, B fuse 40s (B is the rescue case)"
 $PY seal.py start A=24 B=40 C=16 2>&1 | grep sealed | tee -a "$EV"
 sleep 8

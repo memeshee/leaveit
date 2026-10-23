@@ -1,0 +1,10 @@
+{
+  "arm": "tuned",
+  "thinking": false,
+  "items": 40,
+  "verdict_found": 40,
+  "accuracy_when_decided": 0.325,
+  "mean_tokens_generated": 2.0,
+  "median_latency_s": 7.08,
+  "total_tokens": 80
+}

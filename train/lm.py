@@ -53,7 +53,11 @@ def client_for(arm):
     path = st.get(arm)
     if not path:
         sys.exit(f"no saved weights for arm {arm}; run train first")
-    return sc.create_sampling_client(base_model=BASE_MODEL, model_path=path)
+    if isinstance(path, str) and path.startswith("tinker://"):
+        return sc.create_sampling_client(base_model=BASE_MODEL, model_path=path)
+    # save_weights_and_get_sampling_client hands back an opaque session blob, not a
+    # path; it is reusable for as long as the sampler session lives.
+    return tinker.SamplingClient.from_sampler_handle(path, api_key=os.environ.get("TINKER_API_KEY"))
 
 def prefix_ids(tok, row):
     text = tok.apply_chat_template(messages(row), tokenize=False,

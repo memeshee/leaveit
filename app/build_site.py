@@ -66,7 +66,10 @@ def main():
         if line.strip():
             ledger.append(json.loads(line))
 
-    best = max(res.items(), key=lambda kv: kv[1][0]["deferred_frac"]) if res else (None, ({"deferred_frac": 0}, ""))
+    # The big number is the shipped arm; the table still shows anything that beats it.
+    shipped = "fine-tuned 4B (Tinker LoRA)"
+    best = (shipped, res[shipped]) if shipped in res else \
+        max(res.items(), key=lambda kv: kv[1][0]["deferred_frac"])
     rows_html = "".join(
         f"<tr><td>{html.escape(k)}</td><td class='num'>{v[0]['deferred']}</td>"
         f"<td class='num'>{v[0]['deferred_frac']:.1%}</td>"

@@ -1,0 +1,10 @@
+{
+  "arm": "base",
+  "thinking": true,
+  "items": 40,
+  "verdict_found": 15,
+  "accuracy_when_decided": 0.2,
+  "mean_tokens_generated": 695.9,
+  "median_latency_s": 4.033,
+  "total_tokens": 27837
+}
