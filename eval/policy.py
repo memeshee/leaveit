@@ -44,6 +44,10 @@ def roc_auc(scores: List[float], labels: List[int]) -> float:
 
 def budget_curve(scores: List[float], labels: List[int], budget: float = BUDGET):
     total_pos = sum(labels)
+    # A constant score is not a ranking: it can only defer 0 items legitimately.
+    if len(set(scores)) <= 1:
+        return {"deferred": 0, "deferred_frac": 0.0, "wrongly_deferred": 0,
+                "miss_rate": 0.0, "auc": 0.5}
     order = sorted(range(len(scores)), key=lambda i: -scores[i])
     deferred = missed = 0
     for idx in order:

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leave It — the morning filter</title>
+<style>
+:root{--ink:#e8e6e1;--dim:#8b877e;--bg:#12110f;--panel:#1a1917;--line:#2c2a26;--acc:#c8f560;--warn:#f5a05a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+ font:16px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;padding:0 20px 80px}
+main{max-width:960px;margin:0 auto}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.1;letter-spacing:-.02em;margin:48px 0 8px}
+h2{font-size:15px;text-transform:uppercase;letter-spacing:.14em;color:var(--acc);
+ margin:52px 0 12px;font-weight:600}
+p{color:var(--ink);max-width:70ch}
+.sub{color:var(--dim);margin:0 0 32px}
+.big{font-size:clamp(40px,9vw,72px);line-height:1;color:var(--acc);font-weight:700;margin:8px 0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--acc)}
+td.note{color:var(--dim);font-size:13px}
+tr:first-child td{color:var(--ink)}
+ol.ev{list-style:none;padding:0;margin:0}
+ol.ev li{display:flex;gap:16px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.t{color:var(--acc);min-width:64px;font-variant-numeric:tabular-nums}
+ul.led{list-style:none;padding:0;margin:0;font-size:14px}
+ul.led li{padding:7px 0;border-bottom:1px solid var(--line)}
+.LAPSED{color:var(--warn)} .RESCUED{color:var(--acc)} .SEALED{color:var(--dim)}
+.dim{color:var(--dim)}
+code{background:#000;padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:#000;border:1px solid var(--line);border-radius:8px;padding:16px;overflow:auto;font-size:13px}
+.foot{margin-top:56px;color:var(--dim);font-size:13px}
+</style></head><body><main>
+
+<h1>Leave It</h1>
+<p class="sub">A morning filter for a backlog you have decided not to read.</p>
+
+<p>Every item below is a real issue from a real repository. For each one the model
+answers a single question: <b>does this need a maintainer today?</b> Items it defers
+are held by a durable Temporal fuse, so a decision to ignore something cannot be
+lost by a crash, a reboot or a closed laptop lid.</p>
+
+<h2>What the filter buys you</h2>
+<div class="big">11%</div>
+<p>of the held-out stream never reached the human, while wrongly deferring
+11 of the 235 items that genuinely needed
+someone within 24 hours. A perfect ranker could defer 68%; deferring
+everything would defer 100% and miss everything.</p>
+
+<div class="panel"><table>
+<thead><tr><th>arm</th><th class="num">deferred</th><th class="num">of pool</th>
+<th class="num">wrong</th><th class="num">AUC</th><th>what it is</th></tr></thead>
+<tbody><tr><td>tfidf + hand features</td><td class='num'>78</td><td class='num'>10.7%</td><td class='num'>11</td><td class='num'>0.663</td><td class='note'>word counts plus keyword rules</td></tr><tr><td>tfidf + logistic reg</td><td class='num'>57</td><td class='num'>7.8%</td><td class='num'>11</td><td class='num'>0.634</td><td class='note'>word counts, no semantics</td></tr><tr><td>base 4B, prompted</td><td class='num'>29</td><td class='num'>4.0%</td><td class='num'>11</td><td class='num'>0.484</td><td class='note'>the same weights, no fine-tune</td></tr><tr><td>length_only</td><td class='num'>28</td><td class='num'>3.8%</td><td class='num'>11</td><td class='num'>0.426</td><td class='note'>longer report = more serious</td></tr><tr><td>has_label</td><td class='num'>23</td><td class='num'>3.1%</td><td class='num'>11</td><td class='num'>0.393</td><td class='note'>does it already carry a maintainer label</td></tr></tbody></table>
+<p class="dim" style="font-size:13px;margin:14px 0 0">
+Held-out window: 2026-10-16 to 2026-10-21,
+n=731. Operating point: at most 5% of the items that needed a maintainer
+today may be deferred. Grouped by the same policy for every arm.</p>
+</div>
+
+<h2>The guarantee, executed</h2>
+<p>A worker was killed with <code>kill -9</code> with three fuses pending, and one
+attention signal was delivered while no worker process existed at all.</p>
+<div class="panel"><ol class="ev"></ol></div>
+
+<h2>Ledger</h2>
+<p>Append-only. Verdicts are recorded and folded on read, so any decision can be
+re-read and argued with later.</p>
+<div class="panel"><ul class="led"><li><code>rust-lang/rust#0</code> <b class='SEALED'>SEALED</b> <span class='dim'>P(handled)=0.11 — below the line; sealed with a fuse</span></li><li><code>python/cpython#0</code> <b class='SEALED'>SEALED</b> <span class='dim'>P(handled)=0.18 — below the line; sealed with a fuse</span></li><li><code>vercel/next.js#0</code> <b class='SEALED'>SEALED</b> <span class='dim'>P(handled)=0.22 — below the line; sealed with a fuse</span></li><li><code>vercel/next.js#0</code> <b class='LAPSED'>LAPSED</b> <span class='dim'>fuse expired after 16s; nobody ever engaged</span></li><li><code>python/cpython#0</code> <b class='RESCUED'>RESCUED</b> <span class='dim'>a maintainer commented while the worker was dead</span></li><li><code>rust-lang/rust#0</code> <b class='LAPSED'>LAPSED</b> <span class='dim'>fuse expired after 24s; nobody ever engaged</span></li></ul></div>
+
+<h2>Reproduce</h2>
+<pre>git clone https://github.com/memeshee/leaveit
+cd leaveit
+python3 data/fetch_issues.py 10      # real issues + real outcomes
+python3 data/build_dataset.py        # labels + temporal split
+python3 eval/baselines.py            # the arms to beat
+python3 train/lm.py train tuned 400  # LoRA on Tinker
+python3 train/lm.py score tuned
+python3 eval/policy.py eval/scores_*.json
+cd app &amp;&amp; ./run_demo.sh              # kill -9 proof</pre>
+
+<p class="foot">Leave It · Hacktoberfest Open-Source AI Challenge Week 3 ·
+every number on this page is regenerated from <code>data/</code> and <code>eval/</code> by
+<code>app/build_site.py</code>.</p>
+</main></body></html>

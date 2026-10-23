@@ -1,20 +1,23 @@
 [
   {
     "key": "A",
-    "item_id": "rust-lang/rust#0",
-    "p_handle": 0.11,
-    "note": "placeholder until the tuned arm scores the real held-out items"
+    "item_id": "microsoft/vscode#343170",
+    "p_handle": 0.1192,
+    "needs_today": false,
+    "title": "Server for Docker Containers on Updates"
   },
   {
     "key": "B",
-    "item_id": "python/cpython#0",
-    "p_handle": 0.18,
-    "note": "placeholder"
+    "item_id": "microsoft/vscode#342919",
+    "p_handle": 0.1192,
+    "needs_today": false,
+    "title": "Outline view for Markdown Preview"
   },
   {
     "key": "C",
-    "item_id": "vercel/next.js#0",
-    "p_handle": 0.22,
-    "note": "placeholder"
+    "item_id": "microsoft/vscode#342794",
+    "p_handle": 0.9627,
+    "needs_today": false,
+    "title": "Agent Host: about 10 MiB of Codex command output causes V8 heap OOM on stable 1.142.0"
   }
 ]

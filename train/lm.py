@@ -56,7 +56,8 @@ def client_for(arm):
     return sc.create_sampling_client(base_model=BASE_MODEL, model_path=path)
 
 def prefix_ids(tok, row):
-    text = tok.apply_chat_template(messages(row), tokenize=False, add_generation_prompt=True)
+    text = tok.apply_chat_template(messages(row), tokenize=False,
+                                   add_generation_prompt=True, enable_thinking=False)
     ids = tok(text)["input_ids"]
     assert len(ids) > 16, f"suspiciously short prompt: {len(ids)}"
     return ids
@@ -120,7 +121,7 @@ def cmd_train(arm="tuned", steps=400, lr=1e-4, rank=16, bs=8, limit=None):
         target = "NOW" if r["needs_today"] else "WAIT"
         full = ids + [tids[target]]
         w = [0.0] * len(ids) + [1.0]
-        data.append((full[:-1], full[1:], w[:-1]))
+        data.append((full[:-1], full[1:], w[1:]))   # weights align with y, not x
     n_now = sum(1 for r in rows if r["needs_today"])
     print(f"training rows={len(data)} target NOW={n_now} WAIT={len(rows)-n_now} bs={bs}", flush=True)
 
