@@ -1,0 +1,20 @@
+[
+  {
+    "key": "A",
+    "item_id": "rust-lang/rust#0",
+    "p_handle": 0.11,
+    "note": "placeholder until the tuned arm scores the real held-out items"
+  },
+  {
+    "key": "B",
+    "item_id": "python/cpython#0",
+    "p_handle": 0.18,
+    "note": "placeholder"
+  },
+  {
+    "key": "C",
+    "item_id": "vercel/next.js#0",
+    "p_handle": 0.22,
+    "note": "placeholder"
+  }
+]

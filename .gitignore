@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+train/*.log
+train/state.json
+data/ledger.jsonl
+app/demo_run.json
+.env
