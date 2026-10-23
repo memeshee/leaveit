@@ -106,13 +106,13 @@ def main():
                 transcript.append(f"       {line.strip()}")
     demo = "```\n" + "\n".join(transcript) + "\n```" if transcript else "_demo log missing_"
 
-    post = (ROOT / "docs" / "post.md").read_text()
+    post = (ROOT / "post" / "post.md").read_text()
     post = post.replace("{{TUNED_PAYOFF}}", payoff)
     post = post.replace("{{BASELINES_TABLE}}", table)
     post = post.replace("{{LAZY_PAYOFF}}", lazy)
     post = post.replace("{{DEMO_TRANSCRIPT}}", demo)
 
-    out = ROOT / "docs" / "post_final.md"
+    out = ROOT / "post" / "post_final.md"
     out.write_text(post)
     words = len(post.split())
     left = [m for m in ("{{", ) if m in post]

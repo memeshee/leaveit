@@ -30,7 +30,7 @@ def api(path, method="GET", payload=None):
 
 
 def main():
-    src = ROOT / "docs" / "post_final.md"
+    src = ROOT / "post" / "post_final.md"
     body = src.read_text()
     words = len(body.split())
 
