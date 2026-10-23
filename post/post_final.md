@@ -24,7 +24,7 @@ something, and then to make sure being wrong about that is cheap.*
 ## Demo
 
 The demo is a static page generated from the same artefacts the evaluation reads:
-**https://leaveit-demo.vercel.app/**
+**https://memeshee.github.io/leaveit/** (mirror: https://leaveit-demo.vercel.app/)
 
 There is deliberately no dynamic backend. A previous hackathon entry of mine scored
 badly because its demo was a free-tier web service that had spun down by judging time
