@@ -277,6 +277,11 @@ send my data anywhere".
 - **Three repositories, one 5-day held-out window.** This is a demonstration, not a
   benchmark. The 67.9% ceiling is a property of these four repos, and a repository with a
   different maintainer cadence will move it.
+- **The held-out window is 71% microsoft/vscode** (518 of 731 items) while training skews to
+  next.js, rust and cpython (956/881/818 against 269 for vscode). A temporal split over a
+  fast-moving repo set drifts in composition, so the headline number is dominated by one
+  project's triage rhythm. I would want a per-repo breakdown before trusting this on a new
+  repository, and I have not done one.
 - **"A maintainer touched it" is not "it mattered."** The label is a proxy. Some ignored
   issues genuinely mattered and some handled ones did not.
 - **A mis-deferral is the expensive error.** The policy is asymmetric on purpose: the 5%
