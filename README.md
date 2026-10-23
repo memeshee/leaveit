@@ -17,11 +17,25 @@ genuinely needed a maintainer within 24 hours:
 
 | arm | deferred | of pool | AUC |
 |---|---|---|---|
-| fine-tuned 4B (Tinker LoRA) | see `eval/` | — | — |
-| base 4B, same prompt, no fine-tune | — | — | — |
-| tfidf + logistic regression | — | — | — |
-| has a label already / text length | — | — | — |
-| perfect ranker (ceiling) | 496/731 | 67.9% | 1.000 |
+| fine-tuned 4B (Tinker LoRA) | 73 / 731 | 10.0% | **0.665** |
+| tfidf + hand features | 78 / 731 | 10.7% | 0.663 |
+| tfidf + logistic regression | 57 / 731 | 7.8% | 0.634 |
+| base 4B, same prompt, no LoRA | 49 / 731 | 6.7% | 0.516 |
+| text length only | 28 / 731 | 3.8% | 0.426 |
+| already carries a label | 23 / 731 | 3.1% | 0.393 |
+| perfect ranker (ceiling) | 496 / 731 | 67.9% | 1.000 |
+
+Read it honestly: the fine-tune does **not** dominate the best classical arm on ranking
+quality (0.665 vs 0.663 is a tie), and the classical arm defers 5 more items at exactly the
+5% budget. The fine-tune does win against the baseline the Tinker category specifies — the
+same model, same prompt, no LoRA — moving deferral from 49 to 73 items at AUC 0.516 → 0.665.
+
+Cost axis, measured on the same 40 items:
+
+| arm | verdict produced | tokens per item |
+|---|---|---|
+| base 4B, thinking enabled | 15 / 40 | 696 |
+| fine-tuned 4B, verdict as first token | 40 / 40 | 2 |
 
 Numbers are regenerated, never typed: `python3 eval/policy.py eval/scores_*.json`
 and `python3 app/build_site.py`.
