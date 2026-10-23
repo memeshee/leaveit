@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 620" width="1240" height="620" role="img" aria-label="Leave It architecture: an issue stream is scored by a fine-tuned model, split by a budget threshold into shown and sealed, and every sealed item is held by a durable Temporal timer with two exits, rescue or resurface.">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8b877e"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c8f560"/>
+    </marker>
+  </defs>
+
+  <rect width="1240" height="620" fill="#12110f"/>
+
+  <text x="32" y="40" fill="#e8e6e1" font-family="ui-sans-serif, -apple-system, Segoe UI, sans-serif" font-size="19" font-weight="600">Leave It — where a decision goes, and what catches it</text>
+  <text x="32" y="62" fill="#8b877e" font-family="ui-sans-serif, -apple-system, Segoe UI, sans-serif" font-size="13">Nothing is ever deleted by the model. The only irreversible step is a human engagement.</text>
+
+  <!-- stage 1: stream -->
+  <rect x="32" y="92" width="180" height="96" rx="8" fill="#1a1917" stroke="#2c2a26"/>
+  <text x="48" y="120" fill="#e8e6e1" font-family="ui-monospace, monospace" font-size="14" font-weight="600">issue stream</text>
+  <text x="48" y="142" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">731 held-out items</text>
+  <text x="48" y="160" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">4 real repositories</text>
+  <text x="48" y="178" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">title + body only</text>
+
+  <!-- stage 2: model -->
+  <rect x="264" y="92" width="232" height="96" rx="8" fill="#1a1917" stroke="#2c2a26"/>
+  <text x="280" y="120" fill="#e8e6e1" font-family="ui-monospace, monospace" font-size="14" font-weight="600">fine-tuned 4B</text>
+  <text x="280" y="142" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">Qwen3.5-4B + LoRA · Tinker</text>
+  <text x="280" y="160" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">300 steps · rank 16 · loss 0.560</text>
+  <text x="280" y="178" fill="#c8f560" font-family="ui-monospace, monospace" font-size="12">→ one token: NOW | WAIT</text>
+
+  <!-- stage 3: policy -->
+  <rect x="548" y="92" width="196" height="96" rx="8" fill="#1a1917" stroke="#2c2a26"/>
+  <text x="564" y="120" fill="#e8e6e1" font-family="ui-monospace, monospace" font-size="14" font-weight="600">policy, not vibes</text>
+  <text x="564" y="142" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">threshold is set from</text>
+  <text x="564" y="160" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">a miss budget (5%)</text>
+  <text x="564" y="178" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">AUC 0.665 vs 0.516 base</text>
+
+  <!-- arrows across the top -->
+  <line x1="212" y1="140" x2="258" y2="140" stroke="#8b877e" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="496" y1="140" x2="542" y2="140" stroke="#8b877e" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="744" y1="118" x2="798" y2="87" stroke="#c8f560" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="700" y="84" fill="#c8f560" font-family="ui-monospace, monospace" font-size="11">p ≥ cut</text>
+  <line x1="744" y1="162" x2="798" y2="207" stroke="#f5a05a" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="700" y="200" fill="#f5a05a" font-family="ui-monospace, monospace" font-size="11">p &lt; cut</text>
+
+  <!-- SHOWN -->
+  <rect x="800" y="48" width="392" height="80" rx="8" fill="#1a1917" stroke="#c8f560"/>
+  <text x="820" y="76" fill="#c8f560" font-family="ui-monospace, monospace" font-size="14" font-weight="600">SHOWN — the tray</text>
+  <text x="820" y="98" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">You see it in the morning and decide. This is the</text>
+  <text x="820" y="115" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">only path where the model spends your attention.</text>
+
+  <!-- SEALED -->
+  <rect x="800" y="168" width="392" height="80" rx="8" fill="#1a1917" stroke="#f5a05a"/>
+  <text x="820" y="196" fill="#f5a05a" font-family="ui-monospace, monospace" font-size="14" font-weight="600">SEALED — not shown, not deleted</text>
+  <text x="820" y="218" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">The row stays in the ledger with a reason. It is</text>
+  <text x="820" y="235" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">removed from your view, never from the database.</text>
+
+  <!-- FUSE -->
+  <rect x="800" y="300" width="392" height="88" rx="8" fill="#1a1917" stroke="#2c2a26"/>
+  <text x="820" y="328" fill="#e8e6e1" font-family="ui-monospace, monospace" font-size="14" font-weight="600">Temporal durable timer — the fuse</text>
+  <text x="820" y="350" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">A workflow timer, not a sleep(). It is held in the</text>
+  <text x="820" y="367" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">server's history, so killing the worker cannot</text>
+  <text x="820" y="381" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">cancel it — proven below with kill -9.</text>
+  <line x1="996" y1="248" x2="996" y2="294" stroke="#8b877e" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="1006" y="276" fill="#8b877e" font-family="ui-monospace, monospace" font-size="11">seal + timer</text>
+
+  <!-- two exits -->
+  <line x1="930" y1="388" x2="786" y2="439" stroke="#8b877e" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="770" y="410" fill="#8b877e" font-family="ui-monospace, monospace" font-size="11">timer fires</text>
+  <line x1="1060" y1="388" x2="1060" y2="439" stroke="#8b877e" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="1070" y="414" fill="#8b877e" font-family="ui-monospace, monospace" font-size="11">on_attention</text>
+
+  <rect x="560" y="442" width="300" height="86" rx="8" fill="#1a1917" stroke="#2c2a26"/>
+  <text x="578" y="470" fill="#e8e6e1" font-family="ui-monospace, monospace" font-size="13" font-weight="600">nobody engaged</text>
+  <text x="578" y="492" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">The item resurfaces, unprompted.</text>
+  <text x="578" y="510" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">A wrong WAIT costs you a late look.</text>
+
+  <rect x="884" y="442" width="308" height="86" rx="8" fill="#1a1917" stroke="#2c2a26"/>
+  <text x="902" y="470" fill="#e8e6e1" font-family="ui-monospace, monospace" font-size="13" font-weight="600">someone engaged</text>
+  <text x="902" y="492" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">The workflow is signalled, the seal is</text>
+  <text x="902" y="510" fill="#8b877e" font-family="ui-sans-serif, sans-serif" font-size="12">deleted, a human's read is what kills it.</text>
+
+  <!-- footnote -->
+  <line x1="32" y1="556" x2="1208" y2="556" stroke="#2c2a26"/>
+  <text x="32" y="580" fill="#a8a49b" font-family="ui-sans-serif, sans-serif" font-size="13">The model can only choose between two arrows. Timer duration, deletion and resurfacing are ordinary code — inspectable in app/core.py and app/workflows.py.</text>
+  <text x="32" y="601" fill="#a8a49b" font-family="ui-sans-serif, sans-serif" font-size="13">Every number on this diagram is regenerated from committed artefacts by app/build_site.py. Nothing here is typed by hand.</text>
+</svg>
